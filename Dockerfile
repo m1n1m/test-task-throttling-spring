@@ -1,14 +1,13 @@
 FROM openjdk:17-alpine
 
-ARG JAR_FILE=build/*.jar
-COPY ${JAR_FILE} app.jar
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} /opt/app/app.jar
 
 # cd /opt/app
 WORKDIR /opt/app
 
-# cp target/spring-boot-web.jar /opt/app/app.jar
-COPY ${JAR_FILE} app.jar
-
 # java -jar /opt/app/app.jar
-CMD java $JAVA_OPTS -jar /app.jar
-#ENTRYPOINT ["java","-jar","app.jar"]
+CMD java $JAVA_OPTS -jar /opt/app/app.jar
