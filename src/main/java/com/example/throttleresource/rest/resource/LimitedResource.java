@@ -21,7 +21,7 @@ public class LimitedResource {
 
     @GetMapping
     public ResponseEntity<Void> get(final HttpServletRequest request) {
-        if (restResourceLimitService.isTooManyRequests(request)) {
+        if (!restResourceLimitService.isAllowed(request)) {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
         }
         return ResponseEntity.ok().build();
